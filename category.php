@@ -16,14 +16,27 @@
 
 			<!-- Blog Entries Column -->
 			<div class="col-md-9">
+			    <?php
+                if(isset($_GET['category'])) {
+                    $catID = $_GET['category'];
+                    $query = "SELECT (cat_title) FROM categories WHERE cat_id = $catID";
+                    $category = mysqli_query($connect, $query);
+                    $row = mysqli_fetch_assoc($category);
+                }
+                ?>
 				<h1 class="page-header">
-					Home
-					<small>Reviews</small>
+					Reviews<br>
+                    <small><b>Category:</b> <?php echo $row['cat_title']; ?></small>
 				</h1>
 
 				<?php
-				$query = "SELECT * FROM posts";
+                
+				$query = "SELECT * FROM posts WHERE post_cat_id = $catID";
 				$posts = mysqli_query($connect, $query);
+                
+                if(mysqli_num_rows($posts) <= 0) {
+                    die("Sorry, NO RESULTS!");
+                }
 
 				while($row = mysqli_fetch_assoc($posts)) {
                     $postID = $row['post_id'];
@@ -56,8 +69,8 @@
                     ?>
 
 					<hr>
-                    <p><?php echo $postContent ?></p>
-					<a class="btn btn-primary" href="post.php?p_id=<?php echo $postID ?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+					<p><?php echo $postContent ?></p>
+					<a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
 					<hr>    
 

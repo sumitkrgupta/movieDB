@@ -33,14 +33,25 @@
             echo "<td>$postID</td>";
             echo "<td>$postAuthor</td>";
             echo "<td>$postTitle</td>";
-            echo "<td>$postCategory</td>";
+            
+            $query = "SELECT * FROM categories WHERE cat_id = $postCategory";
+            $categories = mysqli_query($connect, $query);
+            while($row = mysqli_fetch_assoc($categories)) {
+                $catTitle = $row['cat_title'];
+                $catID = $row['cat_id'];
+            }
+            
+            echo "<td>$catTitle</td>";
+            
+            
+            
             echo "<td>$postStatus</td>";
             echo "<td><img width='100px' src='../images/$postImage' alt='image'></td>";
             echo "<td>$postComment</td>";
             echo "<td>$postTag</td>";
             echo "<td>$postDate</td>";
-            echo "<td><a href='posts.php?source=edit_post&p_id={$postID}'>Edit</a></td>";
-            echo "<td><a class='text-danger' href='posts.php?delete={$postID}'>Delete</a></td>";
+            echo "<td><a href='posts.php?source=edit_post&p_id={$postID}'>Edit</a><br>";
+            echo "<a class='text-danger' href='posts.php?delete={$postID}'>Delete</a></td>";
             echo "</tr>";
         }
         ?>

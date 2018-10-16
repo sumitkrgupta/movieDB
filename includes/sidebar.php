@@ -30,7 +30,8 @@
 					<?php
 					while($row = mysqli_fetch_assoc($categories)) {
 						$catTitle = $row['cat_title'];
-						echo "<li><a href='#'>$catTitle</a></li>";
+                        $catID = $row['cat_id'];
+						echo "<li><a href='category.php?category=$catID'>$catTitle</a></li>";
 					}
 
 					?>

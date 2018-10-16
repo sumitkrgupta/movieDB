@@ -4,12 +4,13 @@ if(isset($_GET['p_id'])) {
 }
 
 $query = "SELECT * FROM posts WHERE post_id = {$pID}";
-$posts = mysqli_query($connect, $query);
+$post = mysqli_query($connect, $query);
 
-while($row = mysqli_fetch_assoc($posts)) {
+while($row = mysqli_fetch_assoc($post)) {
     $postID = $row['post_id'];
     $postAuthor = $row['post_author'];
     $postTitle = $row['post_title'];
+    $postDesc = $row['post_desc'];
     $postCategory = $row['post_cat_id'];
     $postStatus = $row['post_status'];
     $postImage = $row['post_image'];
@@ -19,41 +20,102 @@ while($row = mysqli_fetch_assoc($posts)) {
     $postDate = $row['post_date'];
 }
 
+if(isset($_POST['update_post'])) {
+    $post_title = $_POST['title'];
+	$post_author = $_POST['author'];
+    $post_desc = $_POST['description'];
+	$post_category_id = $_POST['post_category'];
+	$post_status = $_POST['status'];
+	$post_image = $_FILES['image']['name'];
+	$post_image_temp = $_FILES['image']['tmp_name'];
+	$post_tags = $_POST['tags'];
+	$post_content = mysqli_real_escape_string($connect, $_POST['content']);
+
+	move_uploaded_file($post_image_temp, "../images/$post_image");
+    
+    if(empty($post_image)) {
+        $query = "SELECT * FROM posts WHERE post_id = $pID";
+        $image = mysqli_query($connect, $query);
+        
+        while($row = mysqli_fetch_array($image)) {
+            $post_image = $row['post_image'];
+        }
+    }
+    
+    $query = "UPDATE posts SET ";
+    $query .= "post_title = '$post_title', ";
+    $query .= "post_desc = '$post_desc', ";
+    $query .= "post_author = '$post_author', ";
+    $query .= "post_cat_id = '$post_category_id', ";
+    $query .= "post_status = '$post_status', ";
+    $query .= "post_date = now(), ";
+    $query .= "post_tags = '$post_tags', ";
+    $query .= "post_image = '$post_image', ";
+    $query .= "post_content = '$post_content' ";
+    $query .= "WHERE post_id = $pID";
+    
+    $update = mysqli_query($connect, $query);
+    
+    if(!$update) {
+        die("<span class='text-danger'>Sorry, post could not be updated. Please try again!</span>". mysqli_error($connect));
+    }
+}
+
 ?>
 
 
 
 <form action="" method="post" enctype="multipart/form-data">
 	<div class="form-group">
-		<label for="title">Post Title</label>
+		<label for="title">Title</label>
 		<input type="text" class="form-control" name="title" value="<?php echo $postTitle; ?>">
 	</div>
 	<div class="form-group">
-		<label for="category">Post Category ID</label>
-		<input type="text" class="form-control" name="category" value="<?php echo $postCategory; ?>">
+		<label for="author">Description</label>
+		<input type="text" class="form-control" name="description" value="<?php echo $postDesc; ?>">
 	</div>
 	<div class="form-group">
-		<label for="author">Post Author</label>
+		<label for="category">Category</label>&emsp;
+		<select name="post_category">
+            <option value="">--Select--</option>
+		    <?php
+            
+            $query = "SELECT * FROM categories";
+            $categories = mysqli_query($connect, $query);
+            while($row = mysqli_fetch_assoc($categories)) {
+                $catTitle = $row['cat_title'];
+                $catID = $row['cat_id'];
+                
+                echo "<option value='$catID'>$catTitle</option>";
+            
+            }
+            
+            ?>
+		</select>
+	</div>
+	<div class="form-group">
+		<label for="author">Author</label>
 		<input type="text" class="form-control" name="author" value="<?php echo $postAuthor; ?>">
 	</div>
 	<div class="form-group">
-		<label for="status">Post Status</label>
+		<label for="status">Status</label>
 		<input type="text" class="form-control" name="status" value="<?php echo $postStatus; ?>">
 	</div>
 	<div class="form-group">
-		<label for="image">Post Image</label>
+        <label for="image">Image</label><br>
+	    <img src="../images/<?php echo $postImage; ?>" width="100px" alt="image">
 		<input type="file" name="image">
 	</div>
 	<div class="form-group">
-		<label for="tags">Post Tags</label>
+		<label for="tags">Tags</label>
 		<input type="text" class="form-control" name="tags" value="<?php echo $postTags; ?>">
 	</div>
 	<div class="form-group">
-		<label for="content">Post Content</label>
+		<label for="content">Content</label>
 		<textarea rows="10" cols="30" class="form-control" name="content"><?php echo $postContent; ?>
 		</textarea>
 	</div>
 	<div class="form-group">
-		<input type="submit" class="btn btn-primary" id="" name="create_post" value="Publish Post">
+		<input type="submit" class="btn btn-primary" id="" name="update_post" value="Update Post">
 	</div>
 </form>
