@@ -2,32 +2,39 @@
 if(isset($_POST['create_post'])) {
 	$post_title = $_POST['title'];
     $post_desc = $_POST['description'];
-	$post_author = $_POST['author'];
+	$post_author = $_SESSION['username'];
 	$post_category = $_POST['category'];
-	$post_status = $_POST['status'];
 	$post_image = $_FILES['image']['name'];
 	$post_image_temp = $_FILES['image']['tmp_name'];
-	$post_tags = $_POST['tags'];
-	$post_content = mysqli_real_escape_string($connect, $_POST['content']);
+	$post_content = nl2br(htmlentities($_POST['content'], ENT_QUOTES, 'UTF-8'));
 	$post_date = date('d-m-y');
-	$post_comment_count = 4;
 
 	move_uploaded_file($post_image_temp, "../images/$post_image"); 
 
-	$query = "INSERT INTO posts(post_cat_id, post_title, post_author, post_date, post_desc post_image, post_content, post_tags, post_comment_count, post_status)";
-	$query .= "VALUES('{$post_category}', '{$post_title}', '{$post_author}', now(), '{$post_desc}' '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_comment_count}', '{$post_status}')";
+	$query = "INSERT INTO posts(post_cat_id, post_title, post_author, post_date, post_desc, post_image, post_content)";
+	$query .= "VALUES('{$post_category}', '{$post_title}', '{$post_author}', now(), '{$post_desc}', '{$post_image}', '{$post_content}')";
 
 	$create_post_query = mysqli_query($connect, $query);
 
 	if(!$create_post_query) {
-		die("Post could not be added!");
-	}
+		die("Post could not be added!". mysqli_error($connect));
+	} else {
+        ?>
+        <div class="alert alert-success alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Success!</strong> Your post is added!
+        </div>
+        <?php
+    }
 }
 
 ?>
 
 
 <form action="" method="post" enctype="multipart/form-data">
+    <div >
+        <h3>Add Post</h3>
+    </div>
 	<div class="form-group">
 		<label for="title">Title</label>
 		<input type="text" class="form-control" name="title">
@@ -38,7 +45,7 @@ if(isset($_POST['create_post'])) {
 	</div>
 	<div class="form-group">
 		<label for="category">Category</label>&emsp;
-		<select name="category">
+		<select class="form-control" name="category">
             <option value="">--Select--</option>
 		    <?php
             
@@ -56,20 +63,8 @@ if(isset($_POST['create_post'])) {
 		</select>
 	</div>
 	<div class="form-group">
-		<label for="author">Author</label>
-		<input type="text" class="form-control" name="author">
-	</div>
-	<div class="form-group">
-		<label for="status">Status</label>
-		<input type="text" class="form-control" name="status">
-	</div>
-	<div class="form-group">
 		<label for="image">Image</label>
-		<input type="file" name="image">
-	</div>
-	<div class="form-group">
-		<label for="tags">Tags</label>
-		<input type="text" class="form-control" name="tags">
+		<input type="file" class="form-control-file" name="image" id="image">
 	</div>
 	<div class="form-group">
 		<label for="content">Content</label>

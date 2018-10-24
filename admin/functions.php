@@ -29,7 +29,7 @@ function showCategories() {
         echo "<tr><td>".$catID."</td>";
         echo "<td>".$catTitle;
         echo "<a class='pull-right text-danger' style='text-decoration: none' href='categories.php?delete={$catID}'>DELETE</a>";
-        echo "<a class='pull-right text-primary' style='text-decoration: none' href='categories.php?edit={$catID}'>EDIT&nbsp;&nbsp;&nbsp;</a></td></tr>";
+        echo "<a class='pull-right text-primary' style='text-decoration: none' href='categories.php?edit={$catID}'>EDIT&emsp;</a></td></tr>";
     }
 }
 

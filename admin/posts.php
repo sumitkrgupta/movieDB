@@ -18,8 +18,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Welcome to Admin Page
-                            <small><q>Author</q></small>
+                            Posts
+<!--                            <small><q>Author</q></small>-->
                         </h1>
 
                         <?php

@@ -12,11 +12,9 @@ while($row = mysqli_fetch_assoc($post)) {
     $postTitle = $row['post_title'];
     $postDesc = $row['post_desc'];
     $postCategory = $row['post_cat_id'];
-    $postStatus = $row['post_status'];
     $postImage = $row['post_image'];
-    $postContent = $row['post_content'];
+    $postContent = strip_tags($row['post_content']);
     $postComment = $row['post_comment_count'];
-    $postTags = $row['post_tags'];
     $postDate = $row['post_date'];
 }
 
@@ -25,11 +23,9 @@ if(isset($_POST['update_post'])) {
 	$post_author = $_POST['author'];
     $post_desc = $_POST['description'];
 	$post_category_id = $_POST['post_category'];
-	$post_status = $_POST['status'];
 	$post_image = $_FILES['image']['name'];
 	$post_image_temp = $_FILES['image']['tmp_name'];
-	$post_tags = $_POST['tags'];
-	$post_content = mysqli_real_escape_string($connect, $_POST['content']);
+	$post_content = nl2br(htmlentities($_POST['content'], ENT_QUOTES, 'UTF-8'));
 
 	move_uploaded_file($post_image_temp, "../images/$post_image");
     
@@ -47,9 +43,7 @@ if(isset($_POST['update_post'])) {
     $query .= "post_desc = '$post_desc', ";
     $query .= "post_author = '$post_author', ";
     $query .= "post_cat_id = '$post_category_id', ";
-    $query .= "post_status = '$post_status', ";
-    $query .= "post_date = now(), ";
-    $query .= "post_tags = '$post_tags', ";
+    $query .= "post_date = CURRENT_TIMESTAMP(), ";
     $query .= "post_image = '$post_image', ";
     $query .= "post_content = '$post_content' ";
     $query .= "WHERE post_id = $pID";
@@ -98,17 +92,9 @@ if(isset($_POST['update_post'])) {
 		<input type="text" class="form-control" name="author" value="<?php echo $postAuthor; ?>">
 	</div>
 	<div class="form-group">
-		<label for="status">Status</label>
-		<input type="text" class="form-control" name="status" value="<?php echo $postStatus; ?>">
-	</div>
-	<div class="form-group">
         <label for="image">Image</label><br>
 	    <img src="../images/<?php echo $postImage; ?>" width="100px" alt="image">
 		<input type="file" name="image">
-	</div>
-	<div class="form-group">
-		<label for="tags">Tags</label>
-		<input type="text" class="form-control" name="tags" value="<?php echo $postTags; ?>">
 	</div>
 	<div class="form-group">
 		<label for="content">Content</label>

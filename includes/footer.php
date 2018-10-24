@@ -1,9 +1,9 @@
-<footer>
-	<div class="row">
-		<div class="col-lg-12 text-center">
-			<p>Copyright &copy; MoviesDB 2018.</p>
-		</div>
-		<!-- /.col-lg-12 -->
-	</div>
-	<!-- /.row -->
+<footer class="footer">
+    <div class="container">
+        <div class="row justify-content-center border-top">
+            <div class="col-auto">
+                <p class="mt-3">© Copyright 2018 MoviesDB</p>
+            </div>
+        </div>
+    </div>
 </footer>

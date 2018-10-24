@@ -24,9 +24,9 @@
                     $row = mysqli_fetch_assoc($category);
                 }
                 ?>
-				<h1 class="page-header">
+				<h1 class="pb-2 mt-4 mb-2 border-bottom text-secondary">
 					Reviews<br>
-                    <small><b>Category:</b> <?php echo $row['cat_title']; ?></small>
+                    <small class="text-dark"><b>Category:</b> <?php echo $row['cat_title']; ?></small>
 				</h1>
 
 				<?php
@@ -51,27 +51,26 @@
 
 					<!-- Blog Post -->
 					<h2>
-						<a href="post.php?p_id=<?php echo $postID ?>"><?php echo $postTitle ?></a>
+						<a href="post.php?p_id=<?php echo $postID; ?>"><?php echo $postTitle; ?></a>
 					</h2>
 					<h4><q><?php echo $postDesc ?></q></h4>
 					<p>
 						by <a href="index.php"><?php echo $postAuthor ?></a>
 					</p>
-					<p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $postDate ?></p>
+					<p><span class="far fa-clock"></span> Posted on <?php echo $postDate; ?></p>
 
 					<?php 
 					if(strlen($postImage) > 0) {
 						?>
-						<center><img class="img-responsive" width="300px" src="images/<?php echo $postImage ?>" alt=""></center>
+						<center><img class="img-responsive" width="300px" src="images/<?php echo $postImage; ?>" alt=""></center>
 						<?php
 
 					}
                     ?>
 
 					<hr>
-					<p><?php echo $postContent ?></p>
-					<a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
-
+                    <p><?php echo $postContent; ?></p>
+                    <a href="post.php?p_id=<?php echo $postID; ?>">...Read More</a>
 					<hr>    
 
 				<?php } ?>
