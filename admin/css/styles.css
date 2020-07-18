@@ -1,0 +1,164 @@
+/*!
+ * Start Bootstrap - SB Admin Bootstrap Admin Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+/* Global Styles */
+
+
+/* The side navigation menu */
+.sidebar {
+    margin: 0;
+    margin-left: 0;
+    margin-top: 0;
+    padding: 0;
+    padding-left: 0;
+    width: 200px;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+
+
+/* Sidebar links */
+.sidebar a {
+    width: 200px;
+    display: list-item;
+    color: black;
+    padding: 16px;
+    text-decoration: none;
+}
+
+/* Active/current link */
+.sidebar a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Links on mouse-over */
+.sidebar a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+/* Page content. The value of the margin-left property should match the value of the sidebar's width property */
+div.content {
+    margin-top: 58px;
+    margin-left: 200px;
+    padding: 1px 16px;
+    height: 1000px;
+}
+
+/* On screens that are less than 700px wide, make the sidebar into a topbar */
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .sidebar a {float: left;}
+  div.content {margin-left: 0;}
+}
+
+/* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+@media screen and (max-width: 400px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
+  }
+}
+
+
+
+
+
+
+/* Custom Colored cards */
+
+.huge {
+    font-size: 40px;
+    float: right;
+}
+
+.card-blue {
+    border-color: #007bff;
+}
+
+.card-blue .card-body {
+    border-color: #007bff;
+    color: #fff;
+    background-color: #007bff;
+}
+
+.card-blue a {
+    color: #007bff;
+}
+
+.card-blue a:hover {
+    color: #1155cc;
+}
+
+.card-green {
+    border-color: #5cb85c;
+}
+
+.card-green .card-body {
+    border-color: #5cb85c;
+    color: #fff;
+    background-color: #5cb85c;
+}
+
+.card-green a {
+    color: #5cb85c;
+}
+
+.card-green a:hover {
+    color: #3d8b3d;
+}
+
+.card-red {
+    border-color: #d9534f;
+}
+
+.card-red .card-body {
+    border-color: #d9534f;
+    color: #fff;
+    background-color: #d9534f;
+}
+
+.card-red a {
+    color: #d9534f;
+}
+
+.card-red a:hover {
+    color: #b52b27;
+}
+
+.card-yellow {
+    border-color: #f0ad4e;
+}
+
+.card-yellow .card-body {
+    border-color: #f0ad4e;
+    color: #fff;
+    background-color: #f0ad4e;
+}
+
+.card-yellow a {
+    color: #f0ad4e;
+}
+
+.card-yellow a:hover {
+    color: #df8a13;
+}
+
+
+#addpost {
+    border-left: 1px solid #ddd !important;
+    border-right: 1px solid #ddd !important;
+    border-bottom: 1px solid #ddd !important;
+    padding: 10px !important;
+}

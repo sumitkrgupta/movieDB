@@ -4,6 +4,9 @@
 <?php include "includes/db.php"; ?>
 <?php include "includes/header.php"; ?>
 
+<?php ob_start(); ?>
+<?php session_start(); ?>
+
 <body>
 
 	<!-- Navigation -->
@@ -37,19 +40,20 @@
 					?>
 
 					<!-- Blog Post -->
-					<h2 class="text-primary mt-3"> <?php echo $postTitle ?> </h2>
+					<h2 class="text-info mt-3"> <?php echo $postTitle ?> </h2>
 					<?php if($postType == 'review') { ?>
 					<h4><q><?php echo $postDesc; ?></q></h4>
 					<?php } ?>
 					<p>
-						by <a href="index.php"><?php echo $postAuthor ?></a>
+						by <a href="profiles.php?user=<?php echo $postAuthor; ?>"><?php echo $postAuthor ?></a>
+						<span class="float-right"><i class="far fa-clock"></i> Posted on <?php echo $postDate; ?></span>
 					</p>
-					<p><span class="far fa-clock"></span> Posted on <?php echo $postDate ?></p>
+					<hr>
 
 					<?php 
 					if(strlen($postImage) > 0) {
 					?>
-						<center><img class="img-responsive" width="300px" src="images/<?php echo $postImage ?>" alt=""></center>
+						<center><img class="img-responsive mt-2" width="300px" src="images/<?php echo $postImage ?>" alt=""></center>
 						<?php
 
 					}
@@ -62,6 +66,7 @@
                         <?php
                     } else {
                     ?>
+                    <hr>
 					<p><?php echo $postContent ?></p>
 					<hr>    
 
@@ -72,13 +77,16 @@
                 if(isset($_POST['create_comment'])) {
                     $postId = $_GET['p_id'];
                     
-                    $author = $_POST['comment_author'];
-                    $email = $_POST['comment_email'];
+                    if(isset($_SESSION['username'])) {
+                        $author = $_SESSION['fullname'];
+                    } else {
+                        $author = $_POST['comment_author'];
+                    }
                     $commentContent = nl2br(htmlentities($_POST['comment_content'], ENT_QUOTES, 'UTF-8'));
                     
-                    if(!empty($_POST['comment_author']) && !empty($_POST['comment_content'])) {
-                        $query = "INSERT INTO comments(comment_post_id, comment_author, comment_email,                  comment_content, comment_date) ";
-                        $query .= "VALUES ('$postId', '$author', '$email', '$commentContent', now())";
+                    if(!empty($author) && !empty($commentContent)) {
+                        $query = "INSERT INTO comments(comment_post_id, comment_author, comment_content,                comment_date) ";
+                        $query .= "VALUES ('$postId', '$author', '$commentContent', now())";
 
                         $comment = mysqli_query($connect, $query);
 
@@ -102,18 +110,19 @@
 
 				<!-- Comments Form -->
 				<h3>Comments:</h3>
-				<div class="card bg-light col-sm-8">
+				<div class="card bg-light col-sm-8 mb-3">
 				    <div class="card-body">
 				        <h4 class="card-title">Leave a Comment:</h4>
                         <form role="form" method="post" action="">
-                            <div class="form-group">
-                                <label for="comment_author">Name</label>
-                                <input type="text" name="comment_author" class="form-control" rows="3">
-                            </div>
-                            <div class="form-group">
-                                <label for="comment_email">Email<small class="text-secondary"> &#40;Optional&#41;</small></label>
-                                <input type="email" name="comment_email" class="form-control" rows="3">
-                            </div>
+                            <?php
+                            if(!isset($_SESSION['username'])) { ?>
+                                <div class="form-group">
+                                    <label for="comment_author">Name</label>
+                                    <input type="text" name="comment_author" class="form-control" rows="3">
+                                </div>
+                                <?php
+                            }
+                            ?>
                             <div class="form-group">
                                 <label for="comment_content">Your Comment</label>
                                 <textarea name="comment_content" class="form-control" rows="3"></textarea>
@@ -125,28 +134,30 @@
 
 
 				<!-- Posted Comments -->
-				<div class="media mt-3 col-sm-8">
-				<?php
-                $query = "SELECT * FROM comments WHERE comment_post_id = $postId and comment_status = 'Approved'        ORDER BY comment_id DESC";
-                $comments = mysqli_query($connect, $query);
-                if(mysqli_num_rows($comments) <= 0) {
-                    echo "<blockquote>No comments yet. Be the first one to comment!</blockquote>";
-                }else {
-                    while($row = mysqli_fetch_assoc($comments)) {
-                        $author = $row['comment_author'];
-                        $comment = $row['comment_content'];
-                        $date = $row['comment_date'];
-                ?>
+                    <?php
+                    $query = "SELECT * FROM comments WHERE comment_post_id = $postId ORDER BY comment_id DESC";
+                    $comments = mysqli_query($connect, $query);
+                    if(mysqli_num_rows($comments) <= 0) {
+                        echo "<blockquote>No comments yet. Be the first one to comment!</blockquote>";
+                    }else {
+                        while($row = mysqli_fetch_assoc($comments)) {
+                            $author = $row['comment_author'];
+                            $comment = $row['comment_content'];
+                            $date = $row['comment_date'];
+                    ?>
 
-				<!-- Comment -->
-					<a class="pull-left" href="#">
-						<img class="media-object" src="http://placehold.it/64x64" alt="">
-					</a>
-					<div class="media-body ml-2">
-						<h4 class="media-heading"><?php echo $author; ?>
-							<small><?php echo $date; ?></small>
-						</h4>
-						<p><?php echo $comment; ?></p>
+                    <!-- Comment -->
+                <div class="media col-sm-8">
+				    <div class="media-body">
+                        <div class="float-left mr-3">
+                            <img class="media-object" src="images/person.png" width="64px" alt="">
+                        </div>
+                        <div>
+                            <h4 class="media-heading"><?php echo $author; ?>
+                                <small><?php echo $date; ?></small>
+                            </h4>
+                            <p><?php echo $comment; ?></p>
+                        </div>
 					</div>
 				</div>
 

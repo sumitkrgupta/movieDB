@@ -4,28 +4,24 @@
 <?php include "includes/admin_header.php"; ?>
 
 <body>
-
-    <div id="wrapper">
-
         <!-- Navigation -->
         <?php include "includes/admin_navbar.php"; ?>
-
-        <div id="page-wrapper">
-
-            <div class="container-fluid">
+           
+            <div class="content">
 
                 <!-- Page Heading -->
                 <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">
+                        <div class="col-sm-12">
+                            <h1 class="pb-2 mt-4 mb-2 border-bottom">
                             Categories
 <!--                            <small><q>Author</q></small>-->
                         </h1>
+                        </div>
                         
                         <!-- Show and Delete Categories -->
-                        <div class="col-12 col-sm-6">                            
+                        <div class="col-sm-6 mt-2">                            
                             <table class="table table-bordered table-hover">
-                                <thead>
+                                <thead class="thead-light">
                                     <tr>
                                         <th>ID</th>
                                         <th>Category Title</th>
@@ -40,10 +36,10 @@
                         </div> <!-- col-xs-6 -->
                         
                         <!--Add Category-->
-                        <div class="col-12 col-sm-6">
+                        <div class="col-sm-6 mt-2">
                             <?php addCategory(); ?>
                             <form action="" method="post">
-                                <label for="cat_title" class="form-label">Add Category</label>
+                                <label for="cat_title" class="form-label"><b>Add Category</b></label>
                                 <div class="form-group">
                                     <input class="form-control" type="text" name="cat_title">
                                 </div>
@@ -60,20 +56,12 @@
                             }
                             ?>
                         </div> <!-- ./col-xs-6 -->
-                        
-                    </div>
                 </div>
                 <!-- /.row -->
 
             </div>
             <!-- /.container-fluid -->
-
-        </div>
-        <!-- /#page-wrapper -->
-
-    </div>
-    <!-- /#wrapper -->
-    
+            
     <?php include "includes/admin_scripts.php"; ?>
 </body>
 

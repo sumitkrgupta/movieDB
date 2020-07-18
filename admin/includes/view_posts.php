@@ -1,5 +1,5 @@
 <table class="table table-bordered table-hover">
-    <thead>
+    <thead class="thead-light">
         <tr>
             <th>ID</th>
             <th>Author</th>
@@ -26,7 +26,7 @@
         
         if(mysqli_num_rows($posts) < 1) {
             ?>
-        <blockquote class="blockquote"><strong>You haven't posted anything! </strong><a href="posts.php?source=add_post">Add new post</a></blockquote>
+        <blockquote class="blockquote"><strong>You haven't posted anything! </strong><a href="posts.php?source=add_post">Add new post.</a></blockquote>
         <?php
         }
 
@@ -34,6 +34,7 @@
             $postID = $row['post_id'];
             $postAuthor = $row['post_author'];
             $postTitle = $row['post_title'];
+            $postType = $row['post_type'];
             $postCategory = $row['post_cat_id'];
             $postImage = $row['post_image'];
             $postComment = $row['post_comment_count'];
@@ -44,16 +45,24 @@
             echo "<td>$postAuthor</td>";
             echo "<td>$postTitle</td>";
             
-            $query = "SELECT * FROM categories WHERE cat_id = $postCategory";
-            $categories = mysqli_query($connect, $query);
-            while($row = mysqli_fetch_assoc($categories)) {
-                $catTitle = $row['cat_title'];
-                $catID = $row['cat_id'];
+            if($postType == 'review') {
+                $query = "SELECT * FROM categories WHERE cat_id = $postCategory";
+                $categories = mysqli_query($connect, $query);
+                while($row = mysqli_fetch_assoc($categories)) {
+                    $catTitle = $row['cat_title'];
+                    $catID = $row['cat_id'];
+                }
+            } else {
+                $catTitle = "---";
             }
             
             echo "<td>$catTitle</td>";
             
-            echo "<td><img width='100px' src='../images/$postImage' alt='image'></td>";
+            if(strlen($postImage) > 0) {
+                echo "<td><img width='100px' src='../images/$postImage' alt='image'></td>";
+            } else {
+                echo "<td>NO IMAGE</td>";
+            }
             echo "<td>$postComment</td>";
             echo "<td>$postDate</td>";
             echo "<td><a href='posts.php?source=edit_post&p_id={$postID}'>Edit</a><br>";

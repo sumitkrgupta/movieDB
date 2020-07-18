@@ -1,10 +1,9 @@
 <table class="table table-bordered table-hover">
-    <thead>
+    <thead class="thead-light">
         <tr>
             <th>ID</th>
             <th>Author</th>
             <th>Comment</th>
-            <th>Email</th>
             <th>In Response to</th>
             <th>Date</th>
             <th>Delete</th>
@@ -14,7 +13,7 @@
 
         <?php
         if(isset($_SESSION['user_role'])) {
-            $user = $_SESSION['username'];
+            $user = $_SESSION['fullname'];
             if($_SESSION['user_role'] == 'admin') {
                 $query = "SELECT * FROM comments";
             } else {
@@ -22,7 +21,8 @@
             }
         }
         $comments = mysqli_query($connect, $query);
-        if(mysqli_num_rows($comments) < 1) {
+        
+        if(mysqli_num_rows($comments) <= 0) {
             ?>
         <blockquote class="blockquote"><strong>You haven't commented on any post!</strong></blockquote>
         <?php
@@ -32,7 +32,6 @@
             $commentID = $row['comment_id'];
             $commentPost = $row['comment_post_id'];
             $commentAuthor = $row['comment_author'];
-            $commentEmail = $row['comment_email'];
             $commentContent = $row['comment_content'];
             $commentDate = $row['comment_date'];
 
@@ -40,7 +39,6 @@
             echo "<td>$commentID</td>";
             echo "<td>$commentAuthor</td>";
             echo "<td>$commentContent</td>";
-            echo "<td>$commentEmail</td>";
             
             $query = "SELECT * FROM posts WHERE post_id = $commentPost";
             $post = mysqli_query($connect, $query);

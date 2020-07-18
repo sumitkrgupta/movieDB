@@ -4,6 +4,12 @@
 <?php ob_start(); ?>
 <?php session_start(); ?>
 
+<?php 
+if(!isset($_SESSION['username'])) {
+    header("Location: ../index.php");
+}
+?>
+
 <head>
 
     <meta charset="utf-8">
@@ -15,13 +21,15 @@
     <title>MoviesDB - Admin</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="css/sb-admin.css" rel="stylesheet">
-
+    <!--<link href="css/bootstrap.min.css" rel="stylesheet">-->
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
     <!-- Custom Fonts -->
     <link href="../fontawesome/css/all.css" rel="stylesheet" type="text/css">
+    
+    <!-- Custom CSS -->
+    <link href="css/styles.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

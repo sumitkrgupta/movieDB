@@ -70,7 +70,7 @@ if(isset($_POST['update_post'])) {
 	</div>
 	<div class="form-group">
 		<label for="category">Category</label>&emsp;
-		<select name="post_category">
+		<select class="form-control" name="post_category">
             <option value="">--Select--</option>
 		    <?php
             
@@ -93,7 +93,7 @@ if(isset($_POST['update_post'])) {
 	</div>
 	<div class="form-group">
         <label for="image">Image</label><br>
-	    <img src="../images/<?php echo $postImage; ?>" width="100px" alt="image">
+	    <img src="../images/<?php echo $postImage; ?>" width="100px" alt="image"><br>
 		<input type="file" name="image">
 	</div>
 	<div class="form-group">

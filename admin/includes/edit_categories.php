@@ -1,6 +1,6 @@
 <form action="" method="post">
     <div class="form-group">
-        <label for="cat_title" class="form-label">Edit Category</label>
+        <label for="cat_title" class="form-label"><b>Edit Category</b></label>
         <?php
         if(isset($_GET['edit'])) {
             $catID = $_GET['edit'];

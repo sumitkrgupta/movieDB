@@ -1,5 +1,5 @@
-<table class="table table-responsive table-bordered table-hover">
-    <thead class="thead-dark">
+<table class="table table-bordered table-hover">
+    <thead class="thead-light">
         <tr>
             <th>ID</th>
             <th>Username</th>

@@ -19,10 +19,9 @@
 
 			<!-- Blog Entries Column -->
 			<div class="col-md-9">
-				<h1 class="pb-2 mt-4 mb-2 border-bottom">
-					Home<br>
-					<small class="text-muted">Top Posts</small>
-				</h1>
+				<div class="pb-2 mt-3 mb-2 border-bottom">
+                    <h2 class="text-muted">Latest Posts</h2>
+				</div>
 
 				<?php
                 
@@ -31,7 +30,7 @@
                 if(isset($_GET['page'])) {
                     $page = $_GET['page'];
                 } else {
-                    $page = "";
+                    $page = "1";
                 }
                 
                 if($page == "" || $page == 1) {
@@ -45,7 +44,7 @@
                 $postCount = mysqli_num_rows($count);
                 $postCount = ceil($postCount / $perPage);
                 
-				$query = "SELECT * FROM posts ORDER BY post_comment_count DESC LIMIT $page1, $perPage";
+                $query = "SELECT * FROM posts ORDER BY post_date DESC LIMIT $page1, $perPage";
 				$posts = mysqli_query($connect, $query);
 
 				while($row = mysqli_fetch_assoc($posts)) {
@@ -64,20 +63,20 @@
 					?>
 
 					<!-- Blog Post -->
-					<h2 class="mt-4 text-secondary">
+					<h3 class="mt-3 text-muted">
 						<?php
                         if($postType == 'review') {echo 'Review: ';}
 						elseif($postType == 'trivia') {echo 'Trivia: ';}
 						else {echo 'Movie Quote: ';}
                         ?>
-						<small class="text-muted"><a class="text-info" href="post.php?p_id=<?php echo $postID; ?>"><?php echo $postTitle; ?></a></small>
-					</h2>
+						<span><a class="text-info" href="post.php?p_id=<?php echo $postID; ?>"><?php echo $postTitle; ?></a></span>
+					</h3>
 					<?php if($postType == 'review') { ?>
 					<h5><q><?php echo $postDesc; ?></q></h5>
 					<?php } ?>
 					<p>
-						by <a class="text-primary" href="index.php"><?php echo $postAuthor ?></a>&emsp;
-                        <span class="float-right"><i class="far fa-clock"></i> <em>Posted on <?php echo $postDate; ?></em></span>
+						by <a class="text-primary" href="profiles.php?user=<?php echo $postAuthor; ?>"><?php echo $postAuthor; ?></a>&emsp;
+                        <span class="float-right"><i class="far fa-clock"></i> Posted on <?php echo $postDate; ?></span>
 					</p>
 
 					<?php 
@@ -92,24 +91,28 @@
                     ?>
 
 					<hr>
-                    <p><?php echo $postContent; ?></p>
+                    <p><?php echo $postContent; ?>
                     <?php
-                    $string = strip_tags($postContent);
-                    if(strlen($string) > 400) {
+                    if(strlen($row['post_content']) > 400) {
                         ?>
-                        <a href="post.php?p_id=<?php echo $postID;?>">...Read More</a>
+                        <span><a href="post.php?p_id=<?php echo $postID; ?>">...Read More</a></span>
                         <?php
                     }
                     ?>
+                    </p>
 					<hr>    
 
 				<?php } ?>
 				
-				<nav aria-label="Page navigation example">
+				<nav id="pagination" aria-label="Page navigation">
                   <ul class="pagination">
                     <?php
                     for($i = 1; $i <= $postCount; $i++) {
-                        echo "<li class='page-item'><a class='page-link' href='index.php?page={$i}'>{$i}</a></li>";
+                        if($i == $page) {
+                            echo "<li class='page-item active disabled'><a class='page-link' aria-disabled='true' aria-pressed='true'>{$i}</a></li>";
+                        } else {
+                            echo "<li class='page-item'><a class='page-link' href='index.php?page={$i}'>{$i}</a></li>";
+                        }
                     }
                     ?>
                   </ul>
